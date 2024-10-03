@@ -1,5 +1,5 @@
 import MainPage from '../main-page/main-page';
-import { PlaceCardProps } from '../place-card/place-card';
+import { PlaceCardProps } from '../place-card/placeTypes';
 
 type AppProps = {
     placeCardsProps: PlaceCardProps[];
