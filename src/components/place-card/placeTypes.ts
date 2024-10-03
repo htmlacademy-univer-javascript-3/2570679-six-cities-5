@@ -4,11 +4,11 @@ export enum PlaceType {
 }
 
 export type PlaceCardProps = {
-id: number;
-price: number;
-description: string;
-imageFileName: string;
-rating: number;
-isPremium: boolean;
-type: PlaceType;
+    id: number;
+    price: number;
+    description: string;
+    imageFileName: string;
+    rating: number;
+    isPremium: boolean;
+    type: PlaceType;
 }
