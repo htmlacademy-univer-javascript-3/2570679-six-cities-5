@@ -1,15 +1,13 @@
-import MainPage from "../main-page/main-page";
+import MainPage from '../main-page/main-page';
 
 type AppProps = {
-    placeCardsCount: number
+    placeCardsCount: number;
 }
 
 function App({placeCardsCount} : AppProps) : JSX.Element {
-    return (
-    <>
-        <MainPage placeCardsCount={placeCardsCount}/>
-    </>
-  )
+  return (
+    <MainPage placeCardsCount={placeCardsCount}/>
+  );
 }
 
 export default App;

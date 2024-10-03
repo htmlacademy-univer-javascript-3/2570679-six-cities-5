@@ -1,6 +1,5 @@
 function Offer() {
-    return (
-    <>
+  return (
     <div className="page">
       <header className="header">
         <div className="container">
@@ -32,7 +31,7 @@ function Offer() {
       </header>
       <main className="page__main page__main--offer">
         <section className="offer">
-        <div className="offer__gallery-container container">
+          <div className="offer__gallery-container container">
             <div className="offer__gallery">
               <div className="offer__image-wrapper">
                 <img className="offer__image" src="img/room.jpg" alt="Photo studio"/>
@@ -72,7 +71,7 @@ function Offer() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: "80%"}}></span>
+                  <span style={{width: '80%'}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">4.8</span>
@@ -164,7 +163,7 @@ function Offer() {
                     <div className="reviews__info">
                       <div className="reviews__rating rating">
                         <div className="reviews__stars rating__stars">
-                          <span style={{width: "80%"}}></span>
+                          <span style={{width: '80%'}}></span>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -225,7 +224,7 @@ function Offer() {
             </div>
           </div>
         </section>
-      <div className="container">
+        <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
@@ -250,7 +249,7 @@ function Offer() {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: "80%"}}></span>
+                      <span style={{width: '80%'}}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -282,7 +281,7 @@ function Offer() {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: "80%"}}></span>
+                      <span style={{width: '80%'}}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -317,7 +316,7 @@ function Offer() {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: "100%"}}></span>
+                      <span style={{width: '100%'}}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -332,8 +331,7 @@ function Offer() {
         </div>
       </main>
     </div>
-    </>
-  )
+  );
 }
 
 export default Offer;

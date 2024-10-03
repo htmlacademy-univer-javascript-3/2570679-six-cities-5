@@ -1,6 +1,5 @@
 function Login() {
-    return (
-    <>
+  return (
     <div className="page page--gray page--login">
       <header className="header">
         <div className="container">
@@ -40,8 +39,7 @@ function Login() {
         </div>
       </main>
     </div>
-    </>
-  )
+  );
 }
 
 export default Login;

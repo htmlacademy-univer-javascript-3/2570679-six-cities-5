@@ -1,12 +1,11 @@
 import PlaceCard from '../place-card/place-card';
 
 type MainPageProps = {
-    placeCardsCount: number
+    placeCardsCount: number;
 }
 
 function MainPage({placeCardsCount}:MainPageProps) : JSX.Element {
-    return (
-    <>
+  return (
     <div className="page page--gray page--main">
       <header className="header">
         <div className="container">
@@ -95,8 +94,8 @@ function MainPage({placeCardsCount}:MainPageProps) : JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">           
-                {Array.from({ length: placeCardsCount }, () => (<PlaceCard />))}                     
+              <div className="cities__places-list places__list tabs__content">
+                {Array.from({ length: placeCardsCount }, (_, index) => (<PlaceCard key={index}/>))}
               </div>
             </section>
             <div className="cities__right-section">
@@ -106,8 +105,7 @@ function MainPage({placeCardsCount}:MainPageProps) : JSX.Element {
         </div>
       </main>
     </div>
-    </>
-  )
+  );
 }
 
 export default MainPage;
