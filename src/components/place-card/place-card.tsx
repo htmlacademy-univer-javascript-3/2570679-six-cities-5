@@ -1,6 +1,6 @@
-import { PlaceCardProps } from './placeTypes';
+import { PlaceCard } from './place-types';
 
-function PlaceCard(props: PlaceCardProps) : JSX.Element {
+function PlaceCardComponent(props: PlaceCard) {
   const { price, imageFileName, description, rating, isPremium, type } = props;
 
   return (
@@ -44,4 +44,4 @@ function PlaceCard(props: PlaceCardProps) : JSX.Element {
   );
 }
 
-export default PlaceCard;
+export default PlaceCardComponent;

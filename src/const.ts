@@ -1,6 +1,20 @@
-import { PlaceCardProps, PlaceType } from '../src/components/place-card/placeTypes';
+import { PlaceCard, PlaceType } from './components/place-card/place-types';
 
-export const PlaceCards : PlaceCardProps[] = [
+export enum AppRoute {
+  Root = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+  NonExistent = '*'
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export const PlaceCardsMock : PlaceCard[] = [
   {
     id: 0,
     price: 120,

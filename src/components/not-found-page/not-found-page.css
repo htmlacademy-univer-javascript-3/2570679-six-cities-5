@@ -1,0 +1,60 @@
+.not-found-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(68, 129, 195, 0.4), rgb(68, 129, 195, 1));
+    color: white;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .content-wrapper {
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .error-code {
+    font-size: 8rem;
+    font-weight: bold;
+    margin: 0;
+    color: rgba(141, 204, 255, 1);
+  }
+  
+  .error-message {
+    font-size: 2rem;
+    margin: 0;
+    color: rgba(141, 204, 255, 1);
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    color: #ffffff;
+  }
+  
+  .go-back-button {
+    padding: 10px 20px;
+    background-color: rgb(68, 129, 195);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .go-back-button:hover {
+    background-color: rgb(55, 104, 158);
+  }
+  
+  .illustration {
+    margin-top: 30px;
+  }
+  
+  .illustration img {
+    max-width: 100%;
+    height: auto;
+  }
+  

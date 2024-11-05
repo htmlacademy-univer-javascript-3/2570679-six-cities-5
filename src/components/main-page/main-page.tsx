@@ -1,11 +1,11 @@
-import PlaceCard from '../place-card/place-card';
-import { PlaceCardProps } from '../place-card/placeTypes';
+import PlaceCardComponent from '../place-card/place-card';
+import { PlaceCard } from '../place-card/place-types';
 
 type MainPageProps = {
-    placeCardsProps: PlaceCardProps[];
+    placeCards: PlaceCard[];
 }
 
-function MainPage({placeCardsProps}:MainPageProps) : JSX.Element {
+function MainPage({placeCards}:MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -79,7 +79,7 @@ function MainPage({placeCardsProps}:MainPageProps) : JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placeCardsProps.length} places to stay in Amsterdam</b>
+              <b className="places__found">{placeCards.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -96,7 +96,7 @@ function MainPage({placeCardsProps}:MainPageProps) : JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {placeCardsProps.map((placeCardProp) => (<PlaceCard key={placeCardProp.id} {...placeCardProp} />))}
+                {placeCards.map((placeCard) => (<PlaceCardComponent key={placeCard.id} {...placeCard} />))}
               </div>
             </section>
             <div className="cities__right-section">
