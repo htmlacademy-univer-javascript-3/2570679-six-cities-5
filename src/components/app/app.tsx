@@ -1,47 +1,56 @@
-import Favorites from '../favorites/favorites';
+import FavoritesPage from '../favorites/favorites';
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
-import Offer from '../offer/offer';
+import OfferPage from '../offer/offer';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { PlaceCard } from '../place-card/place-types';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { Offer, OfferDetails } from '../../types';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../enums';
 import PrivateRoute from '../private-route/private-route';
+import Layout from '../layout/layout';
 
 type AppProps = {
-    placeCards: PlaceCard[];
+  offers: Offer[];
+  offersDetails: OfferDetails[];
 }
 
-function App({placeCards} : AppProps) {
+function App({ offers, offersDetails }: AppProps) {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path = {AppRoute.Root}
-          element = {<MainPage placeCards={placeCards}/>}
-        />
-        <Route
-          path = {AppRoute.Login}
-          element = {<Login/>}
-        />
-        <Route
-          path = {AppRoute.Favorites}
-          element =
-            {
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <Favorites/>
-              </PrivateRoute>
-            }
-        />
-        <Route
-          path = {AppRoute.Offer}
-          element = {<Offer/>}
-        />
-        <Route
-          path = {AppRoute.NonExistent}
-          element = {<NotFoundPage />}
-        />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route
+            path={AppRoute.Root}
+            element={<MainPage offers={offers} />}
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<Login />}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element=
+              {
+                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                  <FavoritesPage favoritesOffers={offers.filter((offer) => offer.isFavorite)} />
+                </PrivateRoute>
+              }
+          />
+          <Route
+            path={AppRoute.Offer}
+            element={<OfferPage offersDetails={offersDetails} />}
+          >
+          </Route>
+          <Route
+            path="*"
+            element={<Navigate to={AppRoute.NotFoundPage} replace />}
+          />
+          <Route
+            path={AppRoute.NotFoundPage}
+            element={<NotFoundPage />}
+          />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }
