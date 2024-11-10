@@ -1,11 +1,21 @@
 import OffersList from '../offers-list/offers-list';
-import { Offer } from '../../types';
+import { City, Offer } from '../../types';
+import Map from '../map/map';
 
 type MainPageProps = {
-    offers: Offer[];
+  offers: Offer[];
 }
 
-function MainPage({offers: placeCards}:MainPageProps) {
+const city: City = {
+  'name': 'Amsterdam',
+  'location': {
+    'latitude': 52.35514938496378,
+    'longitude': 4.673877537499948,
+    'zoom': 13
+  }
+};
+
+function MainPage({ offers: offers }: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
@@ -50,7 +60,7 @@ function MainPage({offers: placeCards}:MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placeCards.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -67,11 +77,18 @@ function MainPage({offers: placeCards}:MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {<OffersList offers={placeCards}/>}
+                {<OffersList offers={offers} />}
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={city}
+                points={offers.map((offer) => ({
+                  title: offer.title,
+                  lat: offer.location.latitude,
+                  lng: offer.location.longitude
+                }))}
+                selectedPoint={undefined}
+              />
             </div>
           </div>
         </div>
