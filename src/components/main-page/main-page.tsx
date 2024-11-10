@@ -88,8 +88,7 @@ function MainPage({ offers: offers }: MainPageProps) {
                   lng: offer.location.longitude
                 }))}
                 selectedPoint={undefined}
-              >
-              </Map>
+              />
             </div>
           </div>
         </div>
