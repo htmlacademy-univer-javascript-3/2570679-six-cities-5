@@ -1,5 +1,5 @@
 import OffersList from '../offers-list/offers-list';
-import { City, Offer, Point } from '../../types';
+import { City, Offer } from '../../types';
 import Map from '../map/map';
 
 type MainPageProps = {
@@ -7,13 +7,13 @@ type MainPageProps = {
 }
 
 const city: City = {
-  "name": "Amsterdam",
-  "location": {
-    "latitude": 52.35514938496378,
-    "longitude": 4.673877537499948,
-    "zoom": 13
+  'name': 'Amsterdam',
+  'location': {
+    'latitude': 52.35514938496378,
+    'longitude': 4.673877537499948,
+    'zoom': 13
   }
-}
+};
 
 function MainPage({ offers: offers }: MainPageProps) {
   return (
@@ -87,7 +87,9 @@ function MainPage({ offers: offers }: MainPageProps) {
                   lat: offer.location.latitude,
                   lng: offer.location.longitude
                 }))}
-                selectedPoint={undefined}></Map>
+                selectedPoint={undefined}
+              >
+              </Map>
             </div>
           </div>
         </div>
