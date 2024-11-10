@@ -1,5 +1,5 @@
 import {Navigate} from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../enums';
 import { PropsWithChildren } from 'react';
 
 type PrivateRouteProps = PropsWithChildren<{
