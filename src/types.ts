@@ -55,14 +55,14 @@ export type OfferDetails = {
 };
 
 export type Review = {
-    id: string,
-    text: string,
-    rating: number,
-    date: Date,
-    author: ReviewAuthor
+    id: string;
+    text: string;
+    rating: number;
+    date: Date;
+    author: ReviewAuthor;
 }
 
 export type ReviewAuthor = {
-    name: string,
-    avatarSource: string
+    name: string;
+    avatarSource: string;
 }

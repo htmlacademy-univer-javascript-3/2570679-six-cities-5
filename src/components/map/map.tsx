@@ -10,7 +10,7 @@ type MapProps = {
   city: City;
   points: Points;
   selectedPoint: Point | undefined;
-  block: string,
+  block: string;
 };
 
 const defaultCustomIcon = new Icon({

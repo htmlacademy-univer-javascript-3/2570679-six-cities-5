@@ -111,14 +111,14 @@ function OfferPage({ offersDetails: offers }: OfferPageProps) {
           </section>
         </div>
         <Map city={NearPlacesMock[0].city}
-                points={NearPlacesMock.map((offer) => ({
-                  title: offer.title,
-                  lat: offer.location.latitude,
-                  lng: offer.location.longitude
-                }))}
-                selectedPoint={undefined}
-                block={"offer__map"}
-              />
+          points={NearPlacesMock.map((offer) => ({
+            title: offer.title,
+            lat: offer.location.latitude,
+            lng: offer.location.longitude
+          }))}
+          selectedPoint={undefined}
+          block={'offer__map'}
+        />
       </main>
     </div>
   );
