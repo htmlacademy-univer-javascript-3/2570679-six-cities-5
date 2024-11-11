@@ -19,9 +19,9 @@ const GetStyleParameters = (pathName: string) => {
     imageWidth: '150',
     imageHeight: '100'
   };
-  const defaultStyleParameters = {
-    block: 'default',
-    imageWidth: '200',
+  const styleParametersForNearPlaces = {
+    block: 'near-places',
+    imageWidth: '260',
     imageHeight: '200'
   };
 
@@ -31,7 +31,7 @@ const GetStyleParameters = (pathName: string) => {
     case `${AppRoute.Favorites}`:
       return styleParametersForFavoritesPage;
     default:
-      return defaultStyleParameters;
+      return styleParametersForNearPlaces;
   }
 };
 
