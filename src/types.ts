@@ -53,3 +53,16 @@ export type OfferDetails = {
     bedrooms: number;
     maxAdults: number;
 };
+
+export type Review = {
+    id: string;
+    text: string;
+    rating: number;
+    date: Date;
+    author: ReviewAuthor;
+}
+
+export type ReviewAuthor = {
+    name: string;
+    avatarSource: string;
+}
