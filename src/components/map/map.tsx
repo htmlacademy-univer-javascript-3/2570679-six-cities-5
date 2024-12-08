@@ -31,6 +31,14 @@ function Map({ city, points, selectedPoint, block }: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
+      map.setView(
+        {
+          lat: city.location.latitude,
+          lng: city.location.longitude,
+        },
+        city.location.zoom
+      );
+
       const markerLayer = layerGroup().addTo(map);
 
       points.forEach((point) => {
@@ -52,7 +60,7 @@ function Map({ city, points, selectedPoint, block }: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint]);
+  }, [map, city, points, selectedPoint]);
 
   return <section className={block} ref={mapRef}></section>;
 }

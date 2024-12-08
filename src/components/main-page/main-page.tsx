@@ -1,66 +1,28 @@
 import OffersList from '../offers-list/offers-list';
-import { City, Offer } from '../../types';
 import Map from '../map/map';
+import CityList from '../city-list/city-list';
+import { Cities } from '../../mocks/cities';
+import { useSelector } from 'react-redux';
+import { selectOffersByCity } from '../../store/selectors';
+import { State } from '../../store/reducer';
 
-type MainPageProps = {
-  offers: Offer[];
-}
 
-const city: City = {
-  'name': 'Amsterdam',
-  'location': {
-    'latitude': 52.35514938496378,
-    'longitude': 4.673877537499948,
-    'zoom': 13
-  }
-};
+function MainPage() {
+  const offers = useSelector(selectOffersByCity);
+  const city = useSelector((state: State) => state.city);
 
-function MainPage({ offers: offers }: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CityList cities={Cities}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
