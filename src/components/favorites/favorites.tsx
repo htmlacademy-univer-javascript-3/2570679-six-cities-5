@@ -31,7 +31,7 @@ function FavoritesPage({ favoritesOffers }: FavoritesPageProps) {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    <OffersList offers={offersByCity[city]} />
+                    <OffersList offers={offersByCity[city]} setActiveOfferCardId={() => {}} />
                   </div>
                 </li>
               ))}

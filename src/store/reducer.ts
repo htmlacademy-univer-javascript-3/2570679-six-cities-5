@@ -1,15 +1,12 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { City, Offer } from '../types';
 import { OffersMock } from '../mocks/offers';
-import { fillOffersAction, changeCityAction } from './action';
+import { fillOffersAction, changeCityAction, changeOffersSortingAction } from './action';
+import { SortingOption } from '../enums';
+import { State } from './state-type';
 
 
-export type State = {
-    city: City;
-    offers: Offer[];
-};
-
-const initialState: State =
+export const initialState: State =
 {
   city: {
     name: 'Paris',
@@ -19,7 +16,8 @@ const initialState: State =
       zoom: 13,
     },
   },
-  offers: OffersMock
+  offers: OffersMock,
+  sortingOption: SortingOption.Popular
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -29,5 +27,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fillOffersAction, (state: State, action: PayloadAction<Offer[]>) => {
       state.offers = action.payload;
+    })
+    .addCase(changeOffersSortingAction, (state: State, action: PayloadAction<SortingOption>) => {
+      state.sortingOption = action.payload;
     });
 });

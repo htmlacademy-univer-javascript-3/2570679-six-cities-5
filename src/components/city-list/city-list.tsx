@@ -1,7 +1,7 @@
 import { City } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCityAction } from '../../store/action';
-import { State } from '../../store/reducer';
+import { State } from '../../store/state-type';
 
 
 type CityListProps = {
