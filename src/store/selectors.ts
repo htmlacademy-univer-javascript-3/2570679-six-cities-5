@@ -1,4 +1,18 @@
-import { State } from './state-type';
+import { createSelector } from 'reselect';
+import { Offer } from '../types';
+import { RootState } from '..';
 
-export const selectOffersByCity = (state: State) =>
-  state.offers.filter((offer) => offer.city.name === state.city.name);
+const selectCity = (state: RootState) => state.city;
+const selectOffers = (state: RootState) => state.offers.offers;
+
+export const selectOffersByCity = createSelector(
+  [selectOffers, selectCity],
+  (offers, city) => {
+    if (Array.isArray(offers)) {
+      return offers.filter((offer: Offer) => offer.city.name === city.name);
+    }
+
+    return [];
+  }
+);
+

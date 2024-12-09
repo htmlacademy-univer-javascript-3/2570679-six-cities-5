@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './store/reducer';
 import { Provider } from 'react-redux';
 import { createAPI } from './api/api';
 import { checkAuthAction } from './api/api-actions';
+import rootReducer from './store/rootReducer';
 
 
 export const api = createAPI();
 export const store = configureStore({
-  reducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
@@ -28,7 +28,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App/>
+      <App />
     </Provider>
   </React.StrictMode>
 );

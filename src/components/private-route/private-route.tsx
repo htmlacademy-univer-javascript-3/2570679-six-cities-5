@@ -7,7 +7,7 @@ import { RootState } from '../..';
 type PrivateRouteProps = PropsWithChildren;
 
 function PrivateRoute({children}: PrivateRouteProps) {
-  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
 
   return (
     authorizationStatus === AuthorizationStatus.Auth
