@@ -1,6 +1,21 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../..';
+import { AuthorizationStatus } from '../../enums';
+import { useDispatch } from 'react-redux';
+import { logoutAction } from '../../api/api-actions';
+
 
 function Header() {
+  const dispatch = useDispatch<AppDispatch>();
+  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
+  const userData = useSelector((state: RootState) => state.userData);
+
+  const handleSignoutButtonClick = (event: React.FormEvent) => {
+    event.preventDefault();
+    dispatch(logoutAction());
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -11,21 +26,36 @@ function Header() {
             </Link>
           </div>
           <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <Link className="header__nav-link header__nav-link--profile" to={'/favorites'}>
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
-                  </div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  <span className="header__favorite-count">2</span>
-                </Link>
-              </li>
-              <li className="header__nav-item">
-                <Link className="header__nav-link" to='/'>
-                  <span className="header__signout">Sign out</span>
-                </Link>
-              </li>
-            </ul>
+            {authorizationStatus === AuthorizationStatus.Auth
+              ?
+              <ul className="header__nav-list">
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={'/favorites'}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__user-name user__name">{userData?.email}</span>
+                    <span className="header__favorite-count">2</span>
+                  </Link>
+                </li>
+                <li className="header__nav-item">
+                  <span className="header__signout"
+                    onClick={handleSignoutButtonClick}
+                  >Sign out
+                  </span>
+                </li>
+              </ul>
+              :
+              <ul className="header__nav-list">
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={'/'}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <Link className="header__nav-link" to='/login'>
+                      <span className="header__login">Sign in</span>
+                    </Link>
+                  </Link>
+                </li>
+              </ul>}
           </nav>
         </div>
       </div>
