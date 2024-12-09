@@ -1,4 +1,4 @@
-const AUTH_TOKEN_KEY_NAME = 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
+const AUTH_TOKEN_KEY_NAME = '6-cities-api-token';
 
 export type Token = string;
 
