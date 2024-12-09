@@ -1,14 +1,28 @@
 import { AuthorizationStatus, SortingOption } from '../enums';
 import { City, Offer, OfferDetails, Review, UserData } from '../types';
 
-export type State = {
-    city: City;
-    offers: Offer[];
-    sortingOption: SortingOption;
-    authorizationStatus: AuthorizationStatus;
-    isOffersDataLoading: boolean;
-    userData: UserData | undefined;
-    offerDetails: OfferDetails | undefined;
-    nearOffers: Offer[];
-    offerComments: Review[];
+export type CityState = {
+  city: City;
 };
+
+export type OffersState = {
+  offers: Offer[];
+  nearOffers: Offer[];
+  offerDetails: OfferDetails | undefined;
+  offerComments: Review[];
+};
+
+export type SortingState = {
+  sortingOption: SortingOption;
+};
+
+export type AuthState = {
+  authorizationStatus: AuthorizationStatus;
+  userData: UserData | undefined;
+};
+
+export type LoadingState = {
+  isOffersDataLoading: boolean;
+};
+
+export type State = CityState & OffersState & SortingState & AuthState & LoadingState;

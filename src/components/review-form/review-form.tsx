@@ -5,7 +5,7 @@ import { sendCommentAction } from '../../api/api-actions';
 
 function ReviewForm() {
   const dispatch = useDispatch<AppDispatch>();
-  const offerId = useSelector((state: RootState) => state.offerDetails?.id);
+  const offerId = useSelector((state: RootState) => state.offerDetails?.offerDetails?.id);
   const [rating, setRating] = useState('');
   const [review, setReview] = useState('');
 

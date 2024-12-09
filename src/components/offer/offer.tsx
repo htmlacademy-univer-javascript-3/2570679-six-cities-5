@@ -17,7 +17,10 @@ import NotFoundPage from '../not-found-page/not-found-page';
 function OfferPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
-  const { offerDetails, nearOffers, offerComments, authorizationStatus } = useSelector((state: RootState) => state);
+  const detailsState = useSelector((state: RootState) => state.offerDetails);
+  const nearOffersState = useSelector((state: RootState) => state.nearOffers);
+  const offerCommentsState = useSelector((state: RootState) => state.offerComments);
+  const authState = useSelector((state: RootState) => state.auth.authorizationStatus);
 
   useEffect(() => {
     if (id) {
@@ -31,7 +34,7 @@ function OfferPage() {
     return <Navigate to={AppRoute.NotFoundPage} replace />;
   }
 
-  if (!offerDetails) {
+  if (!detailsState.offerDetails) {
     return <NotFoundPage />;
   }
 
@@ -39,18 +42,18 @@ function OfferPage() {
     <div className="page">
       <main className="page__main page__main--offer">
         <section className="offer">
-          {<OfferGallery imagesSources={offerDetails.images} />}
+          {<OfferGallery imagesSources={detailsState.offerDetails.images} />}
           <div className="offer__container container">
             <div className="offer__wrapper">
               {
-                offerDetails.isPremium ?
+                detailsState.offerDetails.isPremium ?
                   <div className="offer__mark">
                     <span>Premium</span>
                   </div> : <div></div>
               }
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offerDetails.title}
+                  {detailsState.offerDetails.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -61,38 +64,38 @@ function OfferPage() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${20 * offerDetails.rating}%` }}></span>
+                  <span style={{ width: `${20 * detailsState.offerDetails.rating}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{offerDetails.rating}</span>
+                <span className="offer__rating-value rating__value">{detailsState.offerDetails.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {capitalizeFirstLetter(offerDetails.type)}
+                  {capitalizeFirstLetter(detailsState.offerDetails.type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offerDetails.bedrooms} Bedrooms
+                  {detailsState.offerDetails.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {offerDetails.maxAdults} adults
+                  Max {detailsState.offerDetails.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{offerDetails.price}</b>
+                <b className="offer__price-value">&euro;{detailsState.offerDetails.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              {<OfferGoods goods={offerDetails.goods} />}
+              {<OfferGoods goods={detailsState.offerDetails.goods} />}
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src={offerDetails.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="offer__avatar user__avatar" src={detailsState.offerDetails.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
-                    {offerDetails.host.name}
+                    {detailsState.offerDetails.host.name}
                   </span>
                   {
-                    offerDetails.host.isPro ?
+                    detailsState.offerDetails.host.isPro ?
                       <div className="offer__user-status">
                         <span>Pro</span>
                       </div> : <div></div>
@@ -100,13 +103,13 @@ function OfferPage() {
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    {offerDetails.description}
+                    {detailsState.offerDetails.description}
                   </p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                {<ReviewsList reviews={offerComments} />}
-                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                {<ReviewsList reviews={offerCommentsState.offerComments} />}
+                {authState === AuthorizationStatus.Auth && <ReviewForm />}
               </section>
             </div>
           </div>
@@ -115,12 +118,12 @@ function OfferPage() {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {<OffersList offers={nearOffers} setActiveOfferCardId={() => { }} />}
+              {<OffersList offers={nearOffersState.nearOffers} setActiveOfferCardId={() => { }} />}
             </div>
           </section>
         </div>
-        <Map city={offerDetails.city}
-          offersLocations={nearOffers.map((offer) => ({
+        <Map city={detailsState.offerDetails.city}
+          offersLocations={nearOffersState.nearOffers.map((offer) => ({
             point: {
               title: offer.title,
               lat: offer.location.latitude,
