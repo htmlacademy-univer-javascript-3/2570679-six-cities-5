@@ -27,7 +27,7 @@ function App() {
             element=
               {
                 <PrivateRoute>
-                  <FavoritesPage favoritesOffers={[]} />
+                  <FavoritesPage/>
                 </PrivateRoute>
               }
           />

@@ -10,6 +10,7 @@ function Header() {
   const dispatch = useDispatch<AppDispatch>();
   const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
   const userData = useSelector((state: RootState) => state.userData);
+  const favorites = useSelector((state: RootState) => state.favoritesOffers.favoriteOffers);
 
   const handleSignoutButtonClick = (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,7 +35,7 @@ function Header() {
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">{userData?.userData?.email}</span>
-                    <span className="header__favorite-count">2</span>
+                    <span className="header__favorite-count">{favorites.length}</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
