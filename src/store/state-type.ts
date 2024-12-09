@@ -1,5 +1,5 @@
 import { AuthorizationStatus, SortingOption } from '../enums';
-import { City, Offer, UserData } from '../types';
+import { City, Offer, OfferDetails, Review, UserData } from '../types';
 
 export type State = {
     city: City;
@@ -8,4 +8,7 @@ export type State = {
     authorizationStatus: AuthorizationStatus;
     isOffersDataLoading: boolean;
     userData: UserData | undefined;
+    offerDetails: OfferDetails | undefined;
+    nearOffers: Offer[];
+    offerComments: Review[];
 };

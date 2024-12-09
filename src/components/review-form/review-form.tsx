@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../..';
+import { sendCommentAction } from '../../api/api-actions';
 
 function ReviewForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const offerId = useSelector((state: RootState) => state.offerDetails?.id);
   const [rating, setRating] = useState('');
   const [review, setReview] = useState('');
+
+  if (!offerId) {
+    return;
+  }
 
   const handleRatingChange = (event: { target: { value: React.SetStateAction<string> } }) => {
     setRating(event.target.value);
@@ -14,6 +23,9 @@ function ReviewForm() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    dispatch(sendCommentAction({ offerId: offerId, comment: review, rating: Number.parseInt(rating, 10) }));
+    setRating('');
+    setReview('');
   };
 
   const isSubmitDisabled = !rating || review.length < 50;

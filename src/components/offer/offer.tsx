@@ -1,47 +1,56 @@
-import { OfferDetails } from '../../types';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import OfferGallery from '../offer-gallery/offer-gallery';
 import OfferGoods from '../offer-goods/offer-goods';
 import ReviewForm from '../review-form/review-form';
 import capitalizeFirstLetter from '../../helpers/capitalize-first-letter';
-import { AppRoute } from '../../enums';
+import { AppRoute, AuthorizationStatus } from '../../enums';
 import OffersList from '../offers-list/offers-list';
-import { ReviewsMock } from '../../mocks/reviews';
-import { NearPlacesMock } from '../../mocks/near-places';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
+import { fetchNearOffersAction, fetchOfferComments, fetchOfferDetailAction } from '../../api/api-actions';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../..';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 
-type OfferPageProps = {
-  offersDetails: OfferDetails[];
-};
+function OfferPage() {
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch<AppDispatch>();
+  const { offerDetails, nearOffers, offerComments, authorizationStatus } = useSelector((state: RootState) => state);
 
-function OfferPage({ offersDetails: offers }: OfferPageProps) {
-  const location = useLocation();
-  const pathParts = location.pathname.split('/');
-  const offerId = pathParts[pathParts.length - 1];
-  const currentOffer = offers.findLast((x) => x.id === offerId);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferDetailAction(id));
+      dispatch(fetchNearOffersAction(id));
+      dispatch(fetchOfferComments(id));
+    }
+  }, [dispatch, id]);
 
-  if (currentOffer === undefined) {
+  if (!id) {
     return <Navigate to={AppRoute.NotFoundPage} replace />;
+  }
+
+  if (!offerDetails) {
+    return <NotFoundPage />;
   }
 
   return (
     <div className="page">
       <main className="page__main page__main--offer">
         <section className="offer">
-          {<OfferGallery imagesSources={currentOffer?.images} />}
+          {<OfferGallery imagesSources={offerDetails.images} />}
           <div className="offer__container container">
             <div className="offer__wrapper">
               {
-                currentOffer.isPremium ?
+                offerDetails.isPremium ?
                   <div className="offer__mark">
                     <span>Premium</span>
                   </div> : <div></div>
               }
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {currentOffer.title}
+                  {offerDetails.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -52,38 +61,38 @@ function OfferPage({ offersDetails: offers }: OfferPageProps) {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${20 * currentOffer.rating}%` }}></span>
+                  <span style={{ width: `${20 * offerDetails.rating}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
+                <span className="offer__rating-value rating__value">{offerDetails.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {capitalizeFirstLetter(currentOffer.type)}
+                  {capitalizeFirstLetter(offerDetails.type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {currentOffer.bedrooms} Bedrooms
+                  {offerDetails.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {currentOffer.maxAdults} adults
+                  Max {offerDetails.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{currentOffer.price}</b>
+                <b className="offer__price-value">&euro;{offerDetails.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              {<OfferGoods goods={currentOffer.goods} />}
+              {<OfferGoods goods={offerDetails.goods} />}
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src={currentOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="offer__avatar user__avatar" src={offerDetails.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
-                    {currentOffer.host.name}
+                    {offerDetails.host.name}
                   </span>
                   {
-                    currentOffer.host.isPro ?
+                    offerDetails.host.isPro ?
                       <div className="offer__user-status">
                         <span>Pro</span>
                       </div> : <div></div>
@@ -91,13 +100,13 @@ function OfferPage({ offersDetails: offers }: OfferPageProps) {
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    {currentOffer.description}
+                    {offerDetails.description}
                   </p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                {<ReviewsList reviews={ReviewsMock} />}
-                {<ReviewForm />}
+                {<ReviewsList reviews={offerComments} />}
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
               </section>
             </div>
           </div>
@@ -106,12 +115,12 @@ function OfferPage({ offersDetails: offers }: OfferPageProps) {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {<OffersList offers={NearPlacesMock} setActiveOfferCardId={() => { }} />}
+              {<OffersList offers={nearOffers} setActiveOfferCardId={() => { }} />}
             </div>
           </section>
         </div>
-        <Map city={NearPlacesMock[0].city}
-          offersLocations={NearPlacesMock.map((offer) => ({
+        <Map city={offerDetails.city}
+          offersLocations={nearOffers.map((offer) => ({
             point: {
               title: offer.title,
               lat: offer.location.latitude,
