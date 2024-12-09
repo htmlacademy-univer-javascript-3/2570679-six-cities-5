@@ -1,3 +1,17 @@
+
+export type AuthData = {
+    email: string;
+    password: string;
+};
+
+export type UserData = {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+    email: string;
+    token: string;
+};
+
 export type Location = {
     latitude: number;
     longitude: number;
@@ -15,7 +29,10 @@ export type Point = {
     lng: number;
 };
 
-export type Points = Point[];
+export type OfferLocation = {
+    point: Point;
+    offerId: string;
+};
 
 export type Offer = {
     id: string;

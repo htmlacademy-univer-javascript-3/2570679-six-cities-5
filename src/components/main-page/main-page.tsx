@@ -2,20 +2,31 @@ import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import CityList from '../city-list/city-list';
 import { Cities } from '../../mocks/cities';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectOffersByCity } from '../../store/selectors';
 import { State } from '../../store/state-type';
 import SortingOptions from '../sorting-options/sorting-options';
 import { sortOffersByOption } from '../../helpers/sort-offers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchOffersAction } from '../../api/api-actions';
+import { AppDispatch } from '../..';
+import SkeletonLoader from '../../offers-loader/offers-loader';
 
 
 function MainPage() {
+  const dispatch = useDispatch<AppDispatch>();
   const sortingOption = useSelector((state: State) => state.sortingOption);
   const offers = sortOffersByOption(useSelector(selectOffersByCity), sortingOption);
   const [activeOfferCardId, setActiveOfferCardId] = useState('');
   const activeOffer = offers.find((x) => x.id === activeOfferCardId);
   const city = useSelector((state: State) => state.city);
+  const isOffersDataLoading = useSelector((state: State) => state.isOffersDataLoading);
+
+  useEffect(() => {
+    if (!offers.length) {
+      dispatch(fetchOffersAction());
+    }
+  }, [dispatch, offers.length]);
 
   return (
     <div className="page page--gray page--main">
@@ -31,20 +42,29 @@ function MainPage() {
               <b className="places__found">{offers.length} places to stay in {city.name}</b>
               <SortingOptions/>
               <div className="cities__places-list places__list tabs__content">
-                {<OffersList offers={offers} setActiveOfferCardId={setActiveOfferCardId} />}
+                {isOffersDataLoading
+                  ? <SkeletonLoader count={10} />
+                  : <OffersList offers={offers} setActiveOfferCardId={setActiveOfferCardId} />}
               </div>
             </section>
             <div className="cities__right-section">
               <Map city={city}
-                points={offers.map((offer) => ({
-                  title: offer.title,
-                  lat: offer.location.latitude,
-                  lng: offer.location.longitude
-                }))}
-                selectedPoint={activeOffer === undefined ? undefined : {
-                  title: activeOffer.title,
-                  lat: activeOffer.location.latitude,
-                  lng: activeOffer.location.longitude
+                offersLocations={offers.map((offer) => (
+                  {
+                    point: {
+                      title: offer.title,
+                      lat: offer.location.latitude,
+                      lng: offer.location.longitude
+                    },
+                    offerId: offer.id
+                  }))}
+                activeOfferLocation={activeOffer === undefined ? undefined : {
+                  point: {
+                    title: activeOffer.title,
+                    lat: activeOffer.location.latitude,
+                    lng: activeOffer.location.longitude
+                  },
+                  offerId: activeOffer.id
                 }}
                 block={'cities__map'}
               />

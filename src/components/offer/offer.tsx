@@ -96,7 +96,7 @@ function OfferPage({ offersDetails: offers }: OfferPageProps) {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                {<ReviewsList reviews={ReviewsMock}/>}
+                {<ReviewsList reviews={ReviewsMock} />}
                 {<ReviewForm />}
               </section>
             </div>
@@ -106,17 +106,20 @@ function OfferPage({ offersDetails: offers }: OfferPageProps) {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {<OffersList offers={NearPlacesMock} setActiveOfferCardId={() => {}}/>}
+              {<OffersList offers={NearPlacesMock} setActiveOfferCardId={() => { }} />}
             </div>
           </section>
         </div>
         <Map city={NearPlacesMock[0].city}
-          points={NearPlacesMock.map((offer) => ({
-            title: offer.title,
-            lat: offer.location.latitude,
-            lng: offer.location.longitude
+          offersLocations={NearPlacesMock.map((offer) => ({
+            point: {
+              title: offer.title,
+              lat: offer.location.latitude,
+              lng: offer.location.longitude
+            },
+            offerId: offer.id
           }))}
-          selectedPoint={undefined}
+          activeOfferLocation={undefined}
           block={'offer__map'}
         />
       </main>
