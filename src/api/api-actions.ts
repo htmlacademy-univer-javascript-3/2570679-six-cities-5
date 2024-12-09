@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthData, Offer, OfferDetails, Review, UserData } from '../types.js';
-import { changeAuthStatusAction, setNearOffersAction, setOfferCommentsAction, setOfferDetailAction, setOffersAction, setOffersLoadingStatus, setUserDataAction } from '../store/action.js';
+import { changeAuthStatusAction, setFavoriteOffersAction, setNearOffersAction, setOfferCommentsAction, setOfferDetailAction, setOffersAction, setOffersLoadingStatus, setUserDataAction } from '../store/action.js';
 import { saveToken, dropToken } from '../api/token.js';
 import { APIRoute, AuthorizationStatus } from '../enums.js';
 import { AppDispatch, RootState } from '../index.js';
@@ -112,5 +112,41 @@ export const fetchOfferComments = createAsyncThunk<
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<Review[]>(APIRoute.Comments.replace(':offerId', offerId));
     dispatch(setOfferCommentsAction(data));
+  }
+);
+
+export const fetchFavoriteOffersAction = createAsyncThunk<
+  void,
+  undefined,
+  { dispatch: AppDispatch; state: RootState; extra: AxiosInstance }
+>(
+  'data/fetchFavoriteOffers',
+  async (_, { dispatch, extra: api }) => {
+    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
+    dispatch(setFavoriteOffersAction(data));
+  }
+);
+
+export const addOfferToFavoritesAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: RootState; extra: AxiosInstance }
+>(
+  'data/addOfferToFavorites',
+  async (offerId, { dispatch, extra: api }) => {
+    await api.post(APIRoute.ChangeOfferStatus.replace(':offerId', offerId).replace(':status', '1'));
+    dispatch(fetchFavoriteOffersAction());
+  }
+);
+
+export const removeOfferFromFavoritesAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: RootState; extra: AxiosInstance }
+>(
+  'data/removeOfferFromFavorites',
+  async (offerId, { dispatch, extra: api }) => {
+    await api.post(APIRoute.ChangeOfferStatus.replace(':offerId', offerId).replace(':status', '0'));
+    dispatch(fetchFavoriteOffersAction());
   }
 );

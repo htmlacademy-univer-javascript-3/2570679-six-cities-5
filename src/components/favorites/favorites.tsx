@@ -1,11 +1,12 @@
+import { useSelector } from 'react-redux';
 import { Offer } from '../../types';
 import OffersList from '../offers-list/offers-list';
+import { RootState } from '../..';
+import { Link } from 'react-router-dom';
 
-type FavoritesPageProps = {
-  favoritesOffers: Offer[];
-};
 
-function FavoritesPage({ favoritesOffers }: FavoritesPageProps) {
+function FavoritesPage() {
+  const favoritesOffers = useSelector((state: RootState) => state.favoritesOffers.favoriteOffers);
   const offersByCity = favoritesOffers.reduce((acc, offer) => {
     if (!acc[offer.city.name]) {
       acc[offer.city.name] = [];
@@ -25,9 +26,9 @@ function FavoritesPage({ favoritesOffers }: FavoritesPageProps) {
                 <li key={city} className="favorites__locations-items">
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
-                      <a className="locations__item-link" href="#">
+                      <Link className="locations__item-link" to='/'>
                         <span>{city}</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="favorites__places">
