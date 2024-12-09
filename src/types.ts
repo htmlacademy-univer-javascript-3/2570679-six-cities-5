@@ -9,7 +9,7 @@ export type UserData = {
     avatarUrl: string;
     isPro: boolean;
     email: string;
-    token: string
+    token: string;
 };
 
 export type Location = {

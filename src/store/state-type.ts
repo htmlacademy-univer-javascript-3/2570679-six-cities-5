@@ -7,5 +7,5 @@ export type State = {
     sortingOption: SortingOption;
     authorizationStatus: AuthorizationStatus;
     isOffersDataLoading: boolean;
-    userData: UserData | undefined
+    userData: UserData | undefined;
 };

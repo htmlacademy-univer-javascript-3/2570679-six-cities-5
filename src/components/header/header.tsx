@@ -10,7 +10,6 @@ function Header() {
   const dispatch = useDispatch<AppDispatch>();
   const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
   const userData = useSelector((state: RootState) => state.userData);
-  console.log(userData);
 
   const handleSignoutButtonClick = (event: React.FormEvent) => {
     event.preventDefault();
@@ -39,10 +38,12 @@ function Header() {
                   </Link>
                 </li>
                 <li className="header__nav-item">
-                    <span className="header__signout"
-                    onClick={handleSignoutButtonClick}>Sign out</span>
+                  <span className="header__signout"
+                    onClick={handleSignoutButtonClick}
+                  >Sign out
+                  </span>
                 </li>
-              </ul> 
+              </ul>
               :
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
@@ -50,7 +51,7 @@ function Header() {
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <Link className="header__nav-link" to='/login'>
-                    <span className="header__login">Sign in</span>
+                      <span className="header__login">Sign in</span>
                     </Link>
                   </Link>
                 </li>
