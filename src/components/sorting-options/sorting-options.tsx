@@ -6,12 +6,13 @@ import { changeOffersSortingAction } from '../../store/action';
 
 function buildOptionClassName(option: SortingOption, activeOption: SortingOption) {
   const activeOptionString = option === activeOption ? ' places__option--active' : '';
-  return `places__option${ activeOptionString}`;
+  return `places__option${activeOptionString}`;
 }
 
-function buildOption(option: SortingOption, activeOption: SortingOption, handleOptionClick: (option: SortingOption) => void) {
+function buildOption(option: SortingOption, activeOption: SortingOption, handleOptionClick: (option: SortingOption) => void, index: number) {
   return (
-    <li className={buildOptionClassName(option, activeOption)} tabIndex={0}
+    <li className={buildOptionClassName(option, activeOption)}
+      key={index}
       onClick={(e) => {
         e.preventDefault();
         handleOptionClick(option);
@@ -51,7 +52,9 @@ function SortingOptions() {
       <ul
         className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}
       >
-        {Object.values(SortingOption).map((option) => buildOption(option, activeOption, handleOptionClick))}
+        {Object.values(SortingOption).map((option, index) =>
+          buildOption(option, activeOption, handleOptionClick, index)
+        )}
       </ul>
     </form>
   );

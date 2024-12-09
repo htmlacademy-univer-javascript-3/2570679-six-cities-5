@@ -1,9 +1,9 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { City, Offer } from '../types';
-import { OffersMock } from '../mocks/offers';
-import { fillOffersAction, changeCityAction, changeOffersSortingAction } from './action';
-import { SortingOption } from '../enums';
+import { fillOffersAction, changeCityAction, changeOffersSortingAction, requireAuthorization, setOffersLoadingStatus } from './action';
+import { AuthorizationStatus, SortingOption } from '../enums';
 import { State } from './state-type';
+import { RootState } from '..';
 
 
 export const initialState: State =
@@ -16,19 +16,27 @@ export const initialState: State =
       zoom: 13,
     },
   },
-  offers: OffersMock,
-  sortingOption: SortingOption.Popular
+  offers: [],
+  sortingOption: SortingOption.Popular,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isOffersDataLoading: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCityAction, (state: State, action: PayloadAction<City>) => {
+    .addCase(changeCityAction, (state: RootState, action: PayloadAction<City>) => {
       state.city = action.payload;
     })
-    .addCase(fillOffersAction, (state: State, action: PayloadAction<Offer[]>) => {
+    .addCase(fillOffersAction, (state: RootState, action: PayloadAction<Offer[]>) => {
       state.offers = action.payload;
     })
-    .addCase(changeOffersSortingAction, (state: State, action: PayloadAction<SortingOption>) => {
+    .addCase(changeOffersSortingAction, (state: RootState, action: PayloadAction<SortingOption>) => {
       state.sortingOption = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setOffersLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
     });
 });

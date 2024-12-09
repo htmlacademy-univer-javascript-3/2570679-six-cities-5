@@ -3,18 +3,17 @@ import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import OfferPage from '../offer/offer';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { Offer, OfferDetails } from '../../types';
+import { OfferDetails } from '../../types';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../enums';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 
 type AppProps = {
-  offers: Offer[];
   offersDetails: OfferDetails[];
-}
+};
 
-function App({ offers, offersDetails }: AppProps) {
+function App({ offersDetails }: AppProps) {
   return (
     <BrowserRouter>
       <Layout>
@@ -32,7 +31,7 @@ function App({ offers, offersDetails }: AppProps) {
             element=
               {
                 <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                  <FavoritesPage favoritesOffers={offers.filter((offer) => offer.isFavorite)} />
+                  <FavoritesPage favoritesOffers={[]} />
                 </PrivateRoute>
               }
           />

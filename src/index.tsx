@@ -1,15 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { OffersMock } from './mocks/offers';
 import { OffersDetailsMock } from './mocks/offers-details';
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from './store/reducer';
 import { Provider } from 'react-redux';
+import { createAPI } from './api/api';
+import { checkAuthAction } from './api/api-actions';
 
-const store = configureStore({
-  reducer: reducer,
+
+export const api = createAPI();
+export const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }),
 });
+
+store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,7 +29,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offers={OffersMock} offersDetails={OffersDetailsMock} />
+      <App offersDetails={OffersDetailsMock} />
     </Provider>
   </React.StrictMode>
 );
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

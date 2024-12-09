@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
-import { City, Points, Point } from '../../types';
+import { City, OfferLocation } from '../../types';
 import 'leaflet/dist/leaflet.css';
 import pinActive from '/img/pin-active.svg';
 import pin from '/img/pin.svg';
@@ -9,8 +9,8 @@ import pin from '/img/pin.svg';
 
 type MapProps = {
   city: City;
-  points: Points;
-  selectedPoint: Point | undefined;
+  offersLocations: OfferLocation[];
+  activeOfferLocation: OfferLocation | undefined;
   block: string;
 };
 
@@ -26,7 +26,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
-function Map({ city, points, selectedPoint, block }: MapProps): JSX.Element {
+function Map({ city, offersLocations, activeOfferLocation, block }: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(mapRef, city);
 
@@ -42,15 +42,15 @@ function Map({ city, points, selectedPoint, block }: MapProps): JSX.Element {
 
       const markerLayer = layerGroup().addTo(map);
 
-      points.forEach((point) => {
+      offersLocations.forEach((offerLocation) => {
         const marker = new Marker({
-          lat: point.lat,
-          lng: point.lng,
+          lat: offerLocation.point.lat,
+          lng: offerLocation.point.lng,
         });
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
+            activeOfferLocation !== undefined && offerLocation.offerId === activeOfferLocation.offerId
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -61,7 +61,7 @@ function Map({ city, points, selectedPoint, block }: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, city, points, selectedPoint]);
+  }, [map, city, offersLocations, activeOfferLocation]);
 
   return <section className={block} ref={mapRef}></section>;
 }
