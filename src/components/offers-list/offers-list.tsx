@@ -1,17 +1,12 @@
-import { useState } from 'react';
 import OfferCard from '../offer-card/offer-card';
 import { Offer } from '../../types';
 
 type OffersListProps = {
     offers: Offer[];
-}
+    setActiveOfferCardId: React.Dispatch<React.SetStateAction<string>>;
+};
 
-const doSomethingForAngryLinterCheck = (id: string) => id;
-
-function OffersList({offers: offers}: OffersListProps) {
-  const [activeOfferCardId, setActiveOfferCardId] = useState('');
-  doSomethingForAngryLinterCheck(activeOfferCardId);
-
+function OffersList({offers, setActiveOfferCardId}: OffersListProps) {
   return (
     <>
       {offers.map((offer) => (

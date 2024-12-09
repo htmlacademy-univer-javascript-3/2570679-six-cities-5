@@ -4,11 +4,17 @@ import CityList from '../city-list/city-list';
 import { Cities } from '../../mocks/cities';
 import { useSelector } from 'react-redux';
 import { selectOffersByCity } from '../../store/selectors';
-import { State } from '../../store/reducer';
+import { State } from '../../store/state-type';
+import SortingOptions from '../sorting-options/sorting-options';
+import { sortOffersByOption } from '../../helpers/sort-offers';
+import { useState } from 'react';
 
 
 function MainPage() {
-  const offers = useSelector(selectOffersByCity);
+  const sortingOption = useSelector((state: State) => state.sortingOption);
+  const offers = sortOffersByOption(useSelector(selectOffersByCity), sortingOption);
+  const [activeOfferCardId, setActiveOfferCardId] = useState('');
+  const activeOffer = offers.find((x) => x.id === activeOfferCardId);
   const city = useSelector((state: State) => state.city);
 
   return (
@@ -23,23 +29,9 @@ function MainPage() {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city.name}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
+              <SortingOptions/>
               <div className="cities__places-list places__list tabs__content">
-                {<OffersList offers={offers} />}
+                {<OffersList offers={offers} setActiveOfferCardId={setActiveOfferCardId} />}
               </div>
             </section>
             <div className="cities__right-section">
@@ -49,7 +41,11 @@ function MainPage() {
                   lat: offer.location.latitude,
                   lng: offer.location.longitude
                 }))}
-                selectedPoint={undefined}
+                selectedPoint={activeOffer === undefined ? undefined : {
+                  title: activeOffer.title,
+                  lat: activeOffer.location.latitude,
+                  lng: activeOffer.location.longitude
+                }}
                 block={'cities__map'}
               />
             </div>

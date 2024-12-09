@@ -2,8 +2,9 @@ import { useRef, useEffect } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { City, Points, Point } from '../../types';
-import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import 'leaflet/dist/leaflet.css';
+import pinActive from '/img/pin-active.svg';
+import pin from '/img/pin.svg';
 
 
 type MapProps = {
@@ -14,13 +15,13 @@ type MapProps = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: pin,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: pinActive,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
