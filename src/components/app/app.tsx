@@ -3,17 +3,13 @@ import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import OfferPage from '../offer/offer';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { OfferDetails } from '../../types';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 
-type AppProps = {
-  offersDetails: OfferDetails[];
-};
 
-function App({ offersDetails }: AppProps) {
+function App() {
   return (
     <BrowserRouter>
       <Layout>
@@ -37,7 +33,7 @@ function App({ offersDetails }: AppProps) {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage offersDetails={offersDetails} />}
+            element={<OfferPage/>}
           >
           </Route>
           <Route

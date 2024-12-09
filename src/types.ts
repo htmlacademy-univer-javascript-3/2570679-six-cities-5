@@ -73,13 +73,14 @@ export type OfferDetails = {
 
 export type Review = {
     id: string;
-    text: string;
-    rating: number;
+    comment: string;
     date: Date;
-    author: ReviewAuthor;
-}
+    rating: number;
+    user: ReviewAuthor;
+};
 
 export type ReviewAuthor = {
     name: string;
-    avatarSource: string;
-}
+    avatarUrl: string;
+    isPro: boolean;
+};

@@ -1,6 +1,5 @@
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { City, Offer } from '../types';
-import { setOffersAction as setOffersAction, changeCityAction, changeOffersSortingAction, changeAuthStatusAction, setOffersLoadingStatus, setUserDataAction } from './action';
+import { createReducer } from '@reduxjs/toolkit';
+import { setOffersAction as setOffersAction, changeCityAction, changeOffersSortingAction, changeAuthStatusAction, setOffersLoadingStatus, setUserDataAction, setOfferDetailAction, setNearOffersAction, setOfferCommentsAction } from './action';
 import { AuthorizationStatus, SortingOption } from '../enums';
 import { State } from './state-type';
 import { RootState } from '..';
@@ -20,27 +19,39 @@ export const initialState: State =
   sortingOption: SortingOption.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
   isOffersDataLoading: false,
-  userData: undefined
+  userData: undefined,
+  offerDetails: undefined,
+  nearOffers: [],
+  offerComments: []
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCityAction, (state: RootState, action: PayloadAction<City>) => {
+    .addCase(changeCityAction, (state: RootState, action) => {
       state.city = action.payload;
     })
-    .addCase(setOffersAction, (state: RootState, action: PayloadAction<Offer[]>) => {
+    .addCase(setOffersAction, (state: RootState, action) => {
       state.offers = action.payload;
     })
-    .addCase(changeOffersSortingAction, (state: RootState, action: PayloadAction<SortingOption>) => {
+    .addCase(changeOffersSortingAction, (state: RootState, action) => {
       state.sortingOption = action.payload;
     })
-    .addCase(changeAuthStatusAction, (state, action) => {
+    .addCase(changeAuthStatusAction, (state: RootState, action) => {
       state.authorizationStatus = action.payload;
     })
-    .addCase(setOffersLoadingStatus, (state, action) => {
+    .addCase(setOffersLoadingStatus, (state: RootState, action) => {
       state.isOffersDataLoading = action.payload;
     })
-    .addCase(setUserDataAction, (state, action) => {
+    .addCase(setUserDataAction, (state: RootState, action) => {
       state.userData = action.payload;
+    })
+    .addCase(setOfferDetailAction, (state: RootState, action) => {
+      state.offerDetails = action.payload;
+    })
+    .addCase(setNearOffersAction, (state: RootState, action) => {
+      state.nearOffers = action.payload;
+    })
+    .addCase(setOfferCommentsAction, (state: RootState, action) => {
+      state.offerComments = action.payload;
     });
 });
