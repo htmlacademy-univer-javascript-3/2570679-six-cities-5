@@ -4,8 +4,10 @@ import App from './components/app/app';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { createAPI } from './api/api';
-import { checkAuthAction } from './api/api-actions';
+import { checkAuthAction, fetchFavoriteOffers } from './api/api-actions';
 import rootReducer from './store/rootReducer';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 
 export const api = createAPI();
@@ -20,6 +22,7 @@ export const store = configureStore({
 });
 
 store.dispatch(checkAuthAction());
+store.dispatch(fetchFavoriteOffers());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -28,6 +31,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer
+        position="bottom-left"
+        closeOnClick
+        pauseOnHover
+      />
       <App />
     </Provider>
   </React.StrictMode>
