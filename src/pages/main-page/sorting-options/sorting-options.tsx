@@ -1,38 +1,22 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { SortingOption } from '../../../enums';
+import { SortingOptionName } from '../../../enums';
 import { changeOffersSortingOption } from '../../../store/action';
-import { RootState } from '../../..';
+import SortingOption from './sorting-option/sorting-option';
+import { useAppDispatch } from '../../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../../hooks/use-app-selector';
+import { selectActiveSortingOption } from '../../../store/selectors';
 
-function buildClassName(option: SortingOption, activeOption: SortingOption) {
-  const activeOptionString = option === activeOption ? ' places__option--active' : '';
-  return `places__option${activeOptionString}`;
-}
-
-function buildOption(option: SortingOption, activeOption: SortingOption, handleOptionClick: (option: SortingOption) => void, index: number) {
-  return (
-    <li className={buildClassName(option, activeOption)}
-      key={index}
-      onClick={(e) => {
-        e.preventDefault();
-        handleOptionClick(option);
-      }}
-    >
-      {option}
-    </li>
-  );
-}
 
 function SortingOptions() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const activeOption = useAppSelector(selectActiveSortingOption);
   const [isOpen, setIsOpen] = useState(false);
-  const activeOption = useSelector((state: RootState) => state.offers.offersSortingOption);
 
   const toggleOptions = () => {
-    setIsOpen((prevState) => !prevState);
+    setIsOpen((previousState) => !previousState);
   };
 
-  const handleOptionClick = (option: SortingOption) => {
+  const handleOptionClick = (option: SortingOptionName) => {
     setIsOpen(false);
     dispatch(changeOffersSortingOption(option));
   };
@@ -44,17 +28,16 @@ function SortingOptions() {
         className="places__sorting-type"
         tabIndex={0}
         onClick={toggleOptions}
+        data-testid="toggleOptions"
       >
         {activeOption}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul
-        className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}
-      >
-        {Object.values(SortingOption).map((option, index) =>
-          buildOption(option, activeOption, handleOptionClick, index)
+      <ul data-testid='options' className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
+        {Object.values(SortingOptionName).map((option) =>
+          <SortingOption key={option} option={option} activeOption={activeOption} handleOptionClick={handleOptionClick}/>
         )}
       </ul>
     </form>

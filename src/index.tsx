@@ -5,9 +5,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { createAPI } from './api/api';
 import { checkAuthAction, fetchFavoriteOffers } from './api/api-actions';
-import rootReducer from './store/rootReducer';
+import rootReducer from './store/root-reducer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import HistoryRouter from './hocs/history-route/history-route';
+import browserHistory from './history';
 
 
 export const api = createAPI();
@@ -31,12 +33,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer
-        position="bottom-left"
-        closeOnClick
-        pauseOnHover
-      />
-      <App />
+      <HistoryRouter history={browserHistory}>
+        <ToastContainer
+          position="bottom-left"
+          closeOnClick
+          pauseOnHover
+        />
+        <App />
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );
